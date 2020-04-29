@@ -9,12 +9,17 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.indra.selecao.selecaojava.entity.User;
@@ -34,11 +39,20 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ApiOperation(value = "Retorna todos os usuários")
-	public List<User> getAll(){
+	public List<User> getAll(
+			@RequestParam(required = true, defaultValue = "0") int page, 
+			@RequestParam(required = true, defaultValue = "50") int size){
+		
+		Page<User> pageResult;
 		List<User> users = new ArrayList<User>();
 		
 		try {
-			users = userRepository.findAll();
+			Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+			pageResult = userRepository.findAll(pageable);
+			
+			if(pageResult.hasContent()) {
+				users = pageResult.getContent();
+			}
 			
 		} catch (Exception e) {
 			logger.error("Erro ao se conectar com a base de dados!");

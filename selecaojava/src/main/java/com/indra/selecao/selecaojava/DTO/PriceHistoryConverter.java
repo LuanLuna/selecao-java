@@ -74,21 +74,21 @@ public abstract class PriceHistoryConverter {
 		SimpleDateFormat dataBaseFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		String[] data = line.split(delimiter);
-		Date date = Date.valueOf(dataBaseFormat.format(fileFormat.parse(data[6])));
-		Double salesPrice = data[7].isBlank() ? 0 : Double.valueOf(data[7].replace(",", "."));
-		Double puchasePrice = data[8].isBlank() ? 0 : Double.valueOf(data[8].replace(",", "."));
+		Date date = Date.valueOf(dataBaseFormat.format(fileFormat.parse(data[6].trim())));
+		Double salesPrice = data[7].isBlank() ? 0 : Double.valueOf(data[7].replace(",", ".").trim());
+		Double puchasePrice = data[8].isBlank() ? 0 : Double.valueOf(data[8].replace(",", ".").trim());
 		
-		newDTO.setRegion(data[0]);
-		newDTO.setState(data[1]);
-		newDTO.setCity(data[2]);
-		newDTO.setMerchant(data[3]);
-		newDTO.setMerchantCnpj(data[4]);
-		newDTO.setProduct(data[5]);
+		newDTO.setRegion(data[0].trim());
+		newDTO.setState(data[1].trim());
+		newDTO.setCity(data[2].trim());
+		newDTO.setMerchant(data[3].trim());
+		newDTO.setMerchantCnpj(data[4].trim());
+		newDTO.setProduct(data[5].trim());
 		newDTO.setDate(date);
 		newDTO.setSalesPrice(salesPrice);
 		newDTO.setPurchasePrice(puchasePrice);
-		newDTO.setMesure(data[9]);
-		newDTO.setLabel(data[10]);
+		newDTO.setMesure(data[9].trim());
+		newDTO.setLabel(data[10].trim());
 		
 		return newDTO;
 	}

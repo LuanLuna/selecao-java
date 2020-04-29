@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
@@ -17,7 +19,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiModelProperty.AccessMode;
 
-@Entity(name = "Price_History")
+@Entity(name = "PRICE_HISTORY")
+@Table(indexes = { 
+		@Index(name = "IDX_CITY", columnList = "CITY"), 
+		@Index(name = "IDX_LABEL", columnList = "LABEL"), 
+		@Index(name = "IDX_REGION", columnList = "REGION"), 
+		@Index(name = "IDX_DATE", columnList = "DATE") })
 public class PriceHistoryDTO {
 	
 	@Id
