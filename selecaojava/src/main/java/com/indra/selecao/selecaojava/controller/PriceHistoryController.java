@@ -22,14 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.indra.selecao.selecaojava.DTO.PriceHistoryConverter;
+import com.indra.selecao.selecaojava.DTO.PriceHistoryDTO;
 import com.indra.selecao.selecaojava.entity.PriceHistory;
-import com.indra.selecao.selecaojava.repository.CityRepository;
-import com.indra.selecao.selecaojava.repository.LabelRepository;
-import com.indra.selecao.selecaojava.repository.MerchantRepository;
 import com.indra.selecao.selecaojava.repository.PriceHistoryRepository;
-import com.indra.selecao.selecaojava.repository.ProductRepository;
-import com.indra.selecao.selecaojava.repository.RegionRepository;
-import com.indra.selecao.selecaojava.repository.StateRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,18 +36,6 @@ import io.swagger.annotations.ApiOperation;
 public class PriceHistoryController {
 	@Autowired
 	private PriceHistoryRepository priceHistoryRepository;
-	@Autowired
-	private CityRepository cityRepository;
-	@Autowired
-	private LabelRepository labelRepository;
-	@Autowired
-	private MerchantRepository merchantRepository;
-	@Autowired
-	private StateRepository stateRepository;
-	@Autowired
-	private RegionRepository regionRepository;
-	@Autowired
-	private ProductRepository productRepository;
 	
 	Logger logger = LoggerFactory.getLogger(PriceHistoryController.class);
 	
@@ -60,34 +44,37 @@ public class PriceHistoryController {
 	@RequestMapping(method = RequestMethod.GET)
 	@ApiOperation(value = "Retorna todos os históricos de preço")
 	public List<PriceHistory> getAll(){
-		List<PriceHistory> priceHistory = new ArrayList<PriceHistory>();
+		List<PriceHistoryDTO> priceHistoryDtoList = new ArrayList<PriceHistoryDTO>();
+		List<PriceHistory> priceHistoryList = new ArrayList<PriceHistory>();
 		
 		try {
-			priceHistory = priceHistoryRepository.findAll();
-			
+			priceHistoryDtoList = priceHistoryRepository.findAll();
+			for (PriceHistoryDTO current : priceHistoryDtoList) {
+				priceHistoryList.add(PriceHistoryConverter.toEntity(current));
+			}
 		} catch (Exception e) {
 			logger.error("Erro ao se conectar com a base de dados!");
 		}
 
-		return priceHistory;
+		return priceHistoryList;
 
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ApiOperation(value = "Retorna o histórico de preço referente ao id passado como parâmetro")
 	public ResponseEntity<PriceHistory> getById(@PathVariable(value = "id") Long priceHistoryId) {
-		Optional<PriceHistory> priceHistory;
+		Optional<PriceHistoryDTO> priceHistoryDTO;
 		
 		try {
-			priceHistory = priceHistoryRepository.findById(priceHistoryId);
+			priceHistoryDTO = priceHistoryRepository.findById(priceHistoryId);
 		} catch (Exception e) {
 			logger.error("Erro ao se conectar com a base de dados!");
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		
-		if (priceHistory.isPresent()) {
-			return new ResponseEntity<PriceHistory>(priceHistory.get(), HttpStatus.OK);
+		if (priceHistoryDTO.isPresent()) {
+			return new ResponseEntity<PriceHistory>(PriceHistoryConverter.toEntity(priceHistoryDTO.get()), HttpStatus.OK);
 		}
 		
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -99,7 +86,7 @@ public class PriceHistoryController {
 		
 		if (priceHistory != null) {			
 			try {
-				priceHistoryRepository.save(priceHistory);
+				priceHistoryRepository.save(PriceHistoryConverter.toDTO(priceHistory));
 				return new ResponseEntity<PriceHistory>(HttpStatus.OK);
 				
 			} catch (Exception e) {
@@ -115,7 +102,7 @@ public class PriceHistoryController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ApiOperation(value = "Altera os dados do histórico de preço")
 	public ResponseEntity<PriceHistory> put(@PathVariable(value = "id") Long PriceHistoryId, @Valid @RequestBody PriceHistory newPriceHistory) {
-		Optional<PriceHistory> storedPriceHistory;
+		Optional<PriceHistoryDTO> storedPriceHistory;
 		
 		try {
 			storedPriceHistory = priceHistoryRepository.findById(PriceHistoryId);
@@ -128,7 +115,8 @@ public class PriceHistoryController {
 			newPriceHistory.setId(storedPriceHistory.get().getId());
 			
 			try {
-				newPriceHistory = priceHistoryRepository.save(newPriceHistory);
+				PriceHistoryDTO updatedPriceHistory = priceHistoryRepository.save(PriceHistoryConverter.toDTO(newPriceHistory));
+				newPriceHistory = PriceHistoryConverter.toEntity(updatedPriceHistory);
 				return new ResponseEntity<PriceHistory>(newPriceHistory, HttpStatus.OK);
 				
 			} catch (Exception e) {
@@ -143,7 +131,7 @@ public class PriceHistoryController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ApiOperation(value = "Remove um histórico de preço do sistema")
 	public ResponseEntity<Object> delete(@PathVariable(value = "id") Long PriceHistoryId) {
-		Optional<PriceHistory> PriceHistory;
+		Optional<PriceHistoryDTO> PriceHistory;
 		
 		try {
 			PriceHistory = priceHistoryRepository.findById(PriceHistoryId);
@@ -172,10 +160,11 @@ public class PriceHistoryController {
 	public ResponseEntity<Object> post(
 			@RequestParam(required = true) MultipartFile file,
 			@RequestParam(required = true) boolean hasHeader,
-			@RequestParam(defaultValue = "\t") String delimiter) {
+			@RequestParam(defaultValue = "\t") String delimiter,
+			@RequestParam(defaultValue = "UTF-16") String encode) {
 		
 	    String line;
-	    int currentLine = 0;
+	    int currentLine = 1;
 		
 		InputStream inputStream;
 		try {
@@ -184,51 +173,42 @@ public class PriceHistoryController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-	    Scanner scanner = new Scanner(inputStream);
+		Scanner scanner = new Scanner(inputStream, encode);
 	    if (hasHeader && scanner.hasNext()) {
-	    	scanner.nextLine();
+	    	line = scanner.nextLine();
 	    }
 	    
 	    try {
-	    	while (scanner.hasNext() && currentLine < 10) {
-	    		currentLine++;
+	    	while (scanner.hasNext()) {
 	    		line = scanner.nextLine();
 	    		
 	    		try {
-	    			saveFileLine(line, delimiter);
+	    			if (currentLine > 0 && currentLine % 100 == 0) {
+	    				priceHistoryRepository.flush();
+	    	        }
+	    			PriceHistoryDTO newPriceHistoryDTO = PriceHistoryConverter.csvToDTO(line, delimiter);
+	    			
+	    			try {
+	    				priceHistoryRepository.save(newPriceHistoryDTO);
+	    			} catch (Exception e) {
+	    				logger.error("Erro ao tentar salvar linha (" + currentLine + ") do arquivo!");
+					}
 	    		} catch (Exception e) {
 	    			
 	    			logger.error("Erro ao tentar interpretar linha (" + currentLine + ") do arquivo!");
 				}
 	    		
-	    		logger.info("Linha[" + currentLine + "] " + line);	    		
+	    		currentLine++;
 	    	}
 	    	return new ResponseEntity<>(HttpStatus.OK);
 	    	
 	    } catch (Exception e) {
+	    	
 	    	logger.error("Erro ao tentar ler linha (" + currentLine + ") do arquivo!");
 		} finally {
 			scanner.close();
 		}
 		
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-	
-	private void saveFileLine (String line, String delimiter) {
-		
-		String[] data = line.split(delimiter);
-		PriceHistory currentHistory = new PriceHistory();
-
-		/*if (priceHistory != null) {			
-			try {
-				priceHistoryRepository.save(priceHistory);
-				return new ResponseEntity<PriceHistory>(HttpStatus.OK);
-				
-			} catch (Exception e) {
-				logger.error("Erro ao tentar salvar histórico de preço!");
-				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-			
-		}*/
 	}
 }
