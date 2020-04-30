@@ -1,0 +1,31 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2>Histórico</h2>
+  </div>
+  <div class="panel-body">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Cidade</th>
+        <th>Data</th>
+        <th>Distribuidora</th>
+        <th>Ações</th>
+        <th><button (click)="newHistoryItem()" class="btn btn-info" style="margin-left: 10px">Create New</button></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let historyItem of historyItens | async">
+        <td>{{historyItem.id}}</td>
+        <td>{{historyItem.city.name}}</td>
+        <td>{{historyItem.date}}</td>
+        <td>{{historyItem.merchant.name}}</td>
+        <td><button (click)="deleteHistoryItem(historyItem.id)" class="btn btn-danger">Delete</button>
+          <button (click)="historyItemDetails(historyItem.id)" class="btn btn-info" style="margin-left: 10px">Mostrar</button>
+        </td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(value = "User")
 @RequestMapping(value = "/user")
+@CrossOrigin
 public class UserController {
 	@Autowired
 	private UserRepository userRepository;

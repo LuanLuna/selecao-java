@@ -1,0 +1,71 @@
+<h3>Update User</h3>
+<div style="width: 400px;">
+  <form (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="region">Região</label>
+      <input type="text" class="form-control" id="region" required [(ngModel)]="historyItem.city.state.region" name="region">
+    </div>
+
+    <div class="form-group">
+      <label for="state">Estado</label>
+      <input type="text" class="form-control" id="state" required [(ngModel)]="historyItem.city.state.name" name="state">
+    </div>
+
+    <div class="form-group">
+      <label for="city">Cidade</label>
+      <input type="text" class="form-control" id="city" required [(ngModel)]="historyItem.city.name" name="city">
+    </div>
+
+    <div class="form-group">
+      <label for="merchant">Distribuidora</label>
+      <input type="text" class="form-control" id="merchant" required [(ngModel)]="historyItem.merchant.name" name="merchant">
+    </div>
+
+    <div class="form-group">
+      <label for="merchantCnpj">CNPJ da Distribuidora</label>
+      <input type="text" class="form-control" id="merchantCnpj" required [(ngModel)]="historyItem.merchant.cnpj" name="merchantCnpj">
+    </div>
+
+    <div class="form-group">
+      <label for="product">Produto</label>
+      <input type="text" class="form-control" id="product" required [(ngModel)]="historyItem.product.name" name="product">
+    </div>
+
+    <div class="form-group">
+      <label for="date">Data Coleta</label>
+      <input type="text" class="form-control" id="date" required [(ngModel)]="historyItem.date" name="date">
+    </div>
+
+    <div class="form-group">
+      <label for="purchasePrice">Preço de compra</label>
+      <input type="text" class="form-control" id="purchasePrice" required [(ngModel)]="historyItem.purchasePrice" name="purchasePrice">
+    </div>
+
+    <div class="form-group">
+      <label for="salesPrice">Preço de venda</label>
+      <input type="text" class="form-control" id="salesPrice" required [(ngModel)]="historyItem.salesPrice" name="salesPrice">
+    </div>
+
+    <div class="form-group">
+      <label for="mesure">Unidade de medida</label>
+      <input type="text" class="form-control" id="mesure" required [(ngModel)]="historyItem.product.measure" name="mesure">
+    </div>
+
+    <div class="form-group">
+      <label for="label">Bandeira</label>
+      <input type="text" class="form-control" id="label" required [(ngModel)]="historyItem.label.name" name="label">
+    </div>
+
+    <table>
+      <tr>
+        <td>
+          <button type="submit" class="btn btn-success">Salvar</button>
+        </td>
+        <td>
+          <button (click)="goToDetails(historyItem.id)" class="btn btn-danger">Cancelar</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

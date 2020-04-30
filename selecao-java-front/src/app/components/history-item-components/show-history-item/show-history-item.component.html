@@ -1,0 +1,55 @@
+<h2>Detalhes da coleta</h2>
+
+<hr/>
+<div *ngIf="historyItem">
+  <div>
+    <label><b>Id: </b></label> {{historyItem.id}}
+  </div>
+  <div>
+    <label><b>Região: </b></label> {{historyItem.city.state.region}}
+  </div>
+  <div>
+    <label><b>Estado: </b></label> {{historyItem.city.state.name}}
+  </div>
+  <div>
+    <label><b>Cidade: </b></label> {{historyItem.city.name}}
+  </div>
+  <div>
+    <label><b>Distribuidora: </b></label> {{historyItem.merchant.name}}
+  </div>
+  <div>
+    <label><b>CNPJ Distribuidora: </b></label> {{historyItem.merchant.cnpj}}
+  </div>
+  <div>
+    <label><b>Data Coleta: </b></label> {{historyItem.date}}
+  </div>
+  <div>
+    <label><b>Preço de Venda: </b></label> {{historyItem.salesPrice}}
+  </div>
+  <div>
+    <label><b>Preço de Compra: </b></label> {{historyItem.purchasePrice}}
+  </div>
+  <div>
+    <label><b>Unidade de Medida: </b></label> {{historyItem.product.measure}}
+  </div>
+  <div>
+    <label><b>Produto: </b></label> {{historyItem.product.name}}
+  </div>
+  <div>
+    <label><b>Bandeira: </b></label> {{historyItem.label.name}}
+  </div>
+</div>
+
+<br>
+<br>
+<table>
+  <tr>
+    <td>
+      <button (click)="edit(historyItem.id)" class="btn btn-info">Editar</button>
+    </td>
+    <td>
+      <button (click)="list()" class="btn btn-primary">Voltar</button>
+    </td>
+  </tr>
+</table>
+
