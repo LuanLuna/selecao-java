@@ -40,7 +40,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(value = "PriceHistory")
 @RequestMapping(value = "/pricehistory")
-@CrossOrigin
+@CrossOrigin(allowCredentials = "true")
 public class PriceHistoryController {
 	@Autowired
 	private PriceHistoryRepository priceHistoryRepository;

@@ -9,6 +9,7 @@ import {ListHistoryItemComponent} from './components/history-item-components/lis
 import {CreateHistoryItemComponent} from './components/history-item-components/create-history-item/create-history-item.component';
 import {EditHistoryItemComponent} from './components/history-item-components/edit-history-item/edit-history-item.component';
 import {ShowHistoryItemComponent} from './components/history-item-components/show-history-item/show-history-item.component';
+import {HistoryItemFileUploadComponent} from './components/history-item-components/history-item-file-upload/history-item-file-upload.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'history', component: ListHistoryItemComponent },
   { path: 'history/create', component: CreateHistoryItemComponent },
   { path: 'history/update/:id', component: EditHistoryItemComponent },
-  { path: 'history/details/:id', component: ShowHistoryItemComponent }
+  { path: 'history/details/:id', component: ShowHistoryItemComponent },
+  { path: 'history/upload', component: HistoryItemFileUploadComponent }
 ];
 
 @NgModule({

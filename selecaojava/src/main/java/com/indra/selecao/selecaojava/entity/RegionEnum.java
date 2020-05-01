@@ -3,7 +3,7 @@ package com.indra.selecao.selecaojava.entity;
 public enum RegionEnum {
 	CENTRO_OESTE("CO"),
 	SUL("S"),
-	NODERTE("NE"),
+	NORDESTE("NE"),
 	NORTE("N"),
 	SUDESTE("SE"),
 	UNDEFINED("UND");

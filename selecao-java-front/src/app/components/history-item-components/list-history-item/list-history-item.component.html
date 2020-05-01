@@ -4,6 +4,16 @@
   </div>
   <div class="panel-body">
     <table class="table table-striped">
+      <tr>
+        <td>
+          <button (click)="newHistoryItem()" class="btn btn-success" style="margin-left: 10px">Novo</button>
+        </td>
+        <td>
+          <button (click)="upload()" class="btn btn-success" style="margin-left: 10px">Upload Arquivo</button>
+        </td>
+      </tr>
+    </table>
+    <table class="table table-striped">
       <thead>
       <tr>
         <th>Id</th>
@@ -11,7 +21,6 @@
         <th>Data</th>
         <th>Distribuidora</th>
         <th>Ações</th>
-        <th><button (click)="newHistoryItem()" class="btn btn-info" style="margin-left: 10px">Create New</button></th>
       </tr>
       </thead>
       <tbody>
@@ -23,7 +32,6 @@
         <td><button (click)="deleteHistoryItem(historyItem.id)" class="btn btn-danger">Delete</button>
           <button (click)="historyItemDetails(historyItem.id)" class="btn btn-info" style="margin-left: 10px">Mostrar</button>
         </td>
-        <td></td>
       </tr>
       </tbody>
     </table>

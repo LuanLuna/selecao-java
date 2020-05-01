@@ -1,0 +1,15 @@
+<div>
+  <input #fileInput type="file" ng2FileSelect [uploader]="uploader"/>
+
+  <div class="drop-box" ng2FileDrop
+       [ngClass]="{'dragover': isDropOver}"
+       [uploader]="uploader"
+       (fileOver)="fileOverAnother($event)"
+       (click)="fileClicked()">
+    <span class="drag-in-title">Import or drag file here</span>
+    <span class="drag-over-title">Drop the file</span>
+  </div>
+  <div class="progress" [hidden]="hiddenProgressBar">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 95%"></div>
+  </div>
+</div>

@@ -14,6 +14,8 @@ import { CreateHistoryItemComponent } from './components/history-item-components
 import { ShowHistoryItemComponent } from './components/history-item-components/show-history-item/show-history-item.component';
 import { EditHistoryItemComponent } from './components/history-item-components/edit-history-item/edit-history-item.component';
 import { ListHistoryItemComponent } from './components/history-item-components/list-history-item/list-history-item.component';
+import { HistoryItemFileUploadComponent } from './components/history-item-components/history-item-file-upload/history-item-file-upload.component';
+import {FileUploadModule} from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -26,13 +28,15 @@ import { ListHistoryItemComponent } from './components/history-item-components/l
     CreateHistoryItemComponent,
     ShowHistoryItemComponent,
     EditHistoryItemComponent,
-    ListHistoryItemComponent
+    ListHistoryItemComponent,
+    HistoryItemFileUploadComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FileUploadModule
   ],
   providers: [],
   bootstrap: [AppComponent]

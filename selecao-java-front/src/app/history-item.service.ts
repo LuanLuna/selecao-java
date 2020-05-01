@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {FileUploader} from 'ng2-file-upload';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,15 @@ export class HistoryItemService {
     return this.http.delete(`${this.baseUrl}/${id}`, { responseType: 'text' });
   }
 
-  getHistoryItemList(): Observable<any> {
+  getSimpleHistoryItemList(): Observable<any> {
     return this.http.get(`${this.baseUrl}`);
+  }
+
+  getHistoryItemListGroupedByDate(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/grouped/date`);
+  }
+
+  getHistoryItemListGroupedByMerchant(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/grouped/merchant`);
   }
 }

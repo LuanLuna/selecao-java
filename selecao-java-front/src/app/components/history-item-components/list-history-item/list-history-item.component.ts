@@ -15,11 +15,11 @@ export class ListHistoryItemComponent implements OnInit {
   constructor(private historyItemService: HistoryItemService, private router: Router) { }
 
   ngOnInit(): void {
-    this.historyItens = this.historyItemService.getHistoryItemList();
+    this.reloadData();
   }
 
   reloadData() {
-    this.historyItens = this.historyItemService.getHistoryItemList();
+    this.historyItens = this.historyItemService.getSimpleHistoryItemList();
   }
   deleteHistoryItem(id: number) {
     this.historyItemService.deleteHistoryItem(id)
@@ -37,5 +37,9 @@ export class ListHistoryItemComponent implements OnInit {
 
   newHistoryItem(){
     this.router.navigate(['history/create']);
+  }
+
+  upload(){
+    this.router.navigate(['history/upload']);
   }
 }

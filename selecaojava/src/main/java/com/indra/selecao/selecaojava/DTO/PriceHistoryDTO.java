@@ -13,7 +13,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.br.CNPJ;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -54,7 +53,7 @@ public class PriceHistoryDTO {
 	
 	@Column(nullable = false, name = "merchant_cnpj")
 	@NotBlank
-	@CNPJ(message = "O este campo deve conter exatamente 14 digitos numéricos")
+	@Size(max = 14, min = 14, message = "O este campo deve conter exatamente 14 digitos numéricos")
 	private String merchantCnpj;
 	
 	@Column(nullable = false)

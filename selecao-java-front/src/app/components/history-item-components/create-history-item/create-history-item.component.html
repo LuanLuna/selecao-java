@@ -3,12 +3,18 @@
   <form (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="region">Região</label>
-      <input type="text" class="form-control" id="region" required [(ngModel)]="historyItem.city.state.region" name="region">
+      <select class="form-control" required [(ngModel)]="historyItem.city.state.region" id="region"  name="region">
+        <option value="SUL">Sul</option>
+        <option value="SUDESTE">Sudeste</option>
+        <option value="CENTRO_OESTE">Centro-Oeste</option>
+        <option value="NORTE">Norte</option>
+        <option value="NORDESTE">Nordeste</option>
+      </select>
     </div>
 
     <div class="form-group">
       <label for="state">Estado</label>
-      <input type="text" class="form-control" id="state" required [(ngModel)]="historyItem.city.state" name="state">
+      <input type="text" class="form-control" id="state" required [(ngModel)]="historyItem.city.state.name" name="state">
     </div>
 
     <div class="form-group">

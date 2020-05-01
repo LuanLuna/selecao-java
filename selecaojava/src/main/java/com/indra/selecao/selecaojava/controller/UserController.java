@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(value = "User")
 @RequestMapping(value = "/user")
-@CrossOrigin
+@CrossOrigin(allowCredentials = "true")
 public class UserController {
 	@Autowired
 	private UserRepository userRepository;
