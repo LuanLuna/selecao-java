@@ -1,0 +1,28 @@
+<h2>Detalhes do usuário</h2>
+
+<hr/>
+<div *ngIf="user">
+  <div>
+    <label><b>Login: </b></label> {{user.username}}
+  </div>
+  <div>
+    <label><b>Nome: </b></label> {{user.name}}
+  </div>
+  <div>
+    <label><b>E-mail: </b></label> {{user.email}}
+  </div>
+</div>
+
+<br>
+<br>
+<table>
+  <tr>
+    <td>
+      <button (click)="edit(user.id)" class="btn btn-info">Editar</button>
+    </td>
+    <td>
+      <button (click)="list()" class="btn btn-primary">Voltar</button>
+    </td>
+  </tr>
+</table>
+
